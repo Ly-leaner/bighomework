@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/new">
+        <file>config/TowersPosition.plist</file>
+        <file>image/tower.png</file>
+        <file>image/my.png</file>
+        <file>image/spot.png</file>
+        <file>image/enemy.png</file>
+        <file>config/Waves.plist</file>
+        <file>image/enemy2.png</file>
+    </qresource>
+</RCC>
