@@ -2,10 +2,16 @@
     <qresource prefix="/new">
         <file>config/TowersPosition.plist</file>
         <file>image/tower.png</file>
-        <file>image/my.png</file>
         <file>image/spot.png</file>
         <file>image/enemy.png</file>
         <file>config/Waves.plist</file>
         <file>image/enemy2.png</file>
+        <file>image/bullet.png</file>
+        <file>image/my.png</file>
+        <file>music/background.mp3</file>
+        <file>music/place_tower.wav</file>
+        <file>music/kill_enemy.wav</file>
+        <file>music/shoot.wav</file>
+        <file>music/lose_life.wav</file>
     </qresource>
 </RCC>

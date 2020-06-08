@@ -9,6 +9,7 @@
 #include <QMatrix>
 #include <QVector2D>
 #include <QtMath>
+#include<QSoundEffect>
 
 static const int Health_Bar_Width = 20;
 
@@ -62,7 +63,7 @@ void Enemy::move()
     // 还在前往航点的路上
     // 目标航点的坐标
     QPoint targetPoint = m_destinationWayPoint->pos();
-    // 未来修改这个可以添加移动状态,加快,减慢,m_walkingSpeed是基准值
+    // 修改这个可以添加移动状态,加快,减慢,m_walkingSpeed是基准值
 
     // 向量标准化
     double movementSpeed = m_walkingSpeed;
@@ -117,7 +118,7 @@ void Enemy::getAttacked(Tower *attacker)
 }
 
 // 表明敌人已经逃离了攻击范围
-void Enemy::gotLostSight(Tower *attacker)
+void Enemy::gotLostSight(Tower *attacker)//
 {
     m_attackedTowersList.removeOne(attacker);
 }
@@ -125,4 +126,34 @@ void Enemy::gotLostSight(Tower *attacker)
 QPoint Enemy::pos() const
 {
     return m_pos;
+}
+
+void Enemy::getRemoved()//
+{
+    if (m_attackedTowersList.empty())
+        return;
+
+    foreach (Tower *attacker, m_attackedTowersList)
+        attacker->targetKilled();
+    // 通知game,此敌人已经阵亡
+    m_game->removedEnemy(this);
+}
+
+void Enemy::getDamage(int damage)//
+{
+    m_currentHp -= damage;
+
+    // 阵亡,需要移除
+    if (m_currentHp <= 0)
+    {
+        QSoundEffect *m_place_tower = new QSoundEffect;
+        m_place_tower->setSource(QUrl("qrc:new/music/kill_enemy.wav"));
+        m_place_tower->setLoopCount(1);
+        m_place_tower->setVolume(0.5);
+        m_place_tower->play();
+
+
+        m_game->awardGold(200);
+        getRemoved();
+    }
 }

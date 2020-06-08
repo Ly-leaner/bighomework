@@ -91,6 +91,24 @@
 			<key>spawnTime</key>
 			<integer>5000</integer>
 		</dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>8000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>9000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>10000</integer>
+                </dict>
 	</array>
 </array>
 </plist>

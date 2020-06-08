@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,7 +31,8 @@ SOURCES += \
     plistreader.cpp \
     tower.cpp \
     waypoint.cpp \
-    enemy.cpp
+    enemy.cpp \
+    bullet.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +41,8 @@ HEADERS += \
     tower.h \
     waypoint.h \
     enemy.h \
-    utilityfunction.h
+    utilityfunction.h \
+    bullet.h
 
 FORMS += \
         mainwindow.ui
