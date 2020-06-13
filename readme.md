@@ -1,10 +1,10 @@
 # 大作业修改项目说明
 ## 一、新增和完善的类和功能
 1、补充了Tower类中的成员，新增了子弹类，修改后的UML类图如下：
-![avatar](https://note.youdao.com/ynoteshare1/index.html?id=62600412a23eeecdf52220940cd0307d&type=note)
+![image](https://note.youdao.com/yws/api/personal/file/WEB6321b303695546907a05e443565f47d7?method=getImage&version=35&cstk=jgsRr2fm)
 
 2、更改后的函数调用基本流程图如下：
-![avatar](https://note.youdao.com/ynoteshare1/index.html?id=07c17bfc27d6d89a7a5f4167868a6641&type=note)
+![image](https://note.youdao.com/yws/api/personal/file/WEB1bdff2f97c1ca84afea0d0f304a595e7?method=getImage&version=43&cstk=jgsRr2fm)
 
 3、增加了游戏背景音乐，安置塔基、防御塔以及敌人被消灭，基地受到攻击的音效。
 
