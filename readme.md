@@ -1,10 +1,10 @@
 # 大作业修改项目说明
 ## 一、新增和完善的类和功能
 1、补充了Tower类中的成员，新增了子弹类，修改后的UML类图如下：
-![image](https://github.com/Ly-leaner/bighomework/row/master/UML-2.png)
+![image](https://raw.githubusercontent.com/Ly-leaner/bighomework/master/UML-2.png)
 
 2、更改后的函数调用基本流程图如下：
-![image](https://github.com/Ly-leaner/bighomework/row/master/流程-2.png)
+![image](https://raw.githubusercontent.com/Ly-leaner/bighomework/master/流程-2.png)
 
 3、增加了游戏背景音乐，安置塔基、防御塔以及敌人被消灭，基地受到攻击的音效。
 
