@@ -18,8 +18,8 @@ public:
     void draw(QPainter *painter) const;
 
 private:
-    const QPoint		m_pos;
-    WayPoint *			m_nextWayPoint;
+    const QPoint m_pos;
+    WayPoint * m_nextWayPoint;
 };
 
 #endif // WAYPOINT_H

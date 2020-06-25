@@ -13,5 +13,15 @@
         <file>music/kill_enemy.wav</file>
         <file>music/shoot.wav</file>
         <file>music/lose_life.wav</file>
+        <file>image/start.jpg</file>
+        <file>image/closebutton.png</file>
+        <file>image/helpbutton.png</file>
+        <file>image/startbutton.png</file>
+        <file>image/continue.png</file>
+        <file>image/pause.png</file>
+        <file>image/backbutton.png</file>
+        <file>image/fail.png</file>
+        <file>image/win.png</file>
+        <file>image/restartbutton.png</file>
     </qresource>
 </RCC>

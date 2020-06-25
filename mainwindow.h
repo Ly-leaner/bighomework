@@ -9,6 +9,8 @@
 #include"enemy.h"
 #include<QMediaplayer>
 #include<QMediaPlaylist>
+#include<QLabel>
+#include"mypushbutton.h"
 
 class WayPoint;
 class Enemy;
@@ -31,10 +33,23 @@ public:
     void removedBullet(Bullet *bullet);
     void addBullet(Bullet *bullet);
     void awardGold(int gold);
+    void gameRestart();
+    int Wave_num();
+
+    static int main_state;//状态，用于暂停，0表示正常，1表示暂停
+    //static int main_state_restart;//状态，用于游戏重新开始，0表示正常，1表示重新开始
+
+    QLabel * WinLabel;//胜利图标
+    QLabel * FailLabel;//失败图标
+    MyPushButton * restart;//重新开始按钮
 
     QList<Enemy *> enemyList() const;
-    QMediaPlaylist *musiclist/* = new QMediaPlaylist*/;//创建播放列表
+    //QMediaPlaylist *musiclist/* = new QMediaPlaylist*/;//创建播放列表
 
+signals:
+    //自定义信号，告知开始界面点击了返回
+    //自定义信号只需要声明，不需要实现
+    void chooseScenceBack();
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -46,7 +61,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QMediaPlayer *startSound/* = new QMediaPlayer*/;//游戏背景音乐
+//    QMediaPlayer *startSound/* = new QMediaPlayer*/;//游戏背景音乐
+    QTimer * timer;
 
     void loadTowerPositions();  //用于从XML文件中读取塔安放的位置信息m_pos
     bool canBuyTower() const;
@@ -59,7 +75,7 @@ private:
     void doGameOver();
     //void awardGold(int gold);
 
-    int	m_waves;//敌人的波数
+
     QList<TowerPosition> m_towerPositionsList;//管理塔的位置信息
     QList<Tower *> m_towersList;   //管理塔的信息
     QList<WayPoint *> m_wayPointsList;    //管理路线点
@@ -67,6 +83,7 @@ private:
     QList<QVariant>	m_wavesInfo; //波数信息
     QList<Bullet *>	m_bulletList; //子弹
 
+    int	m_waves;//敌人的波数，可以用于控制敌人移动速度
     bool m_gameWin;//判断游戏是否胜利
     bool m_gameEnded;
     int	m_playerHp;     //基地的血量

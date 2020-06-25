@@ -32,7 +32,9 @@ SOURCES += \
     tower.cpp \
     waypoint.cpp \
     enemy.cpp \
-    bullet.cpp
+    bullet.cpp \
+    mypushbutton.cpp \
+    startwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +44,9 @@ HEADERS += \
     waypoint.h \
     enemy.h \
     utilityfunction.h \
-    bullet.h
+    bullet.h \
+    mypushbutton.h \
+    startwindow.h
 
 FORMS += \
         mainwindow.ui

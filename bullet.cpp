@@ -18,6 +18,14 @@ Bullet::Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target,
 {
 }
 
+//**************************************************************
+//Bullet::~Bullet()
+//{
+//    //直接析构 可能由于多个子弹指向一个敌人而导致敌人被多次析构 造成内存泄漏
+
+//}
+//**************************************************************
+
 void Bullet::draw(QPainter *painter) const
 {
     painter->drawPixmap(m_currentPos, m_sprite);

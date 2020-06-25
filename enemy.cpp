@@ -18,8 +18,8 @@ const QSize Enemy::ms_fixedSize(52, 52);
 Enemy::Enemy(WayPoint *startWayPoint, MainWindow *game, const QPixmap &sprite/* = QPixmap(":new/image/enemy.png")*/)
     : QObject(0)
     , m_active(false)
-    , m_maxHp(40)
-    , m_currentHp(40)
+    , m_maxHp(50)
+    , m_currentHp(50)
     , m_walkingSpeed(1.0)
     , m_rotationSprite(0.0)
     , m_pos(startWayPoint->pos())
@@ -63,10 +63,10 @@ void Enemy::move()
     // 还在前往航点的路上
     // 目标航点的坐标
     QPoint targetPoint = m_destinationWayPoint->pos();
-    // 修改这个可以添加移动状态,加快,减慢,m_walkingSpeed是基准值
 
+    // 修改这个可以添加移动状态,加快,减慢,m_walkingSpeed是基准值
     // 向量标准化
-    double movementSpeed = m_walkingSpeed;
+    double movementSpeed = m_walkingSpeed + (double)m_game->Wave_num()/2.0;
     QVector2D/*二维向量*/ normalized(targetPoint - m_pos);
     normalized.normalize();//二维向量标准化
     //当前位置位置+=标准化二维向量*移动速度
@@ -157,3 +157,5 @@ void Enemy::getDamage(int damage)//
         getRemoved();
     }
 }
+
+

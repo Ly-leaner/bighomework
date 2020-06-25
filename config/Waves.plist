@@ -45,8 +45,26 @@
 			<key>data</key>
 			<string></string>
 			<key>spawnTime</key>
-			<integer>1000</integer>
+                        <integer>300</integer>
 		</dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>600</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>1000</integer>
+                </dict>
 		<dict>
 			<key>data</key>
 			<string></string>
@@ -59,14 +77,62 @@
 			<key>spawnTime</key>
 			<integer>3000</integer>
 		</dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>10000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>12000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>13000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>14000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>15000</integer>
+                </dict>
 	</array>
 	<array>
 		<dict>
 			<key>data</key>
 			<string></string>
 			<key>spawnTime</key>
-			<integer>1000</integer>
+                        <integer>500</integer>
 		</dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>550</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>600</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>1000</integer>
+                </dict>
 		<dict>
 			<key>data</key>
 			<string></string>
@@ -77,26 +143,26 @@
 			<key>data</key>
 			<string></string>
 			<key>spawnTime</key>
-			<integer>3000</integer>
+                        <integer>4000</integer>
 		</dict>
 		<dict>
 			<key>data</key>
 			<string></string>
 			<key>spawnTime</key>
-			<integer>4000</integer>
-		</dict>
-		<dict>
-			<key>data</key>
-			<string></string>
-			<key>spawnTime</key>
-			<integer>5000</integer>
+                        <integer>5000</integer>
 		</dict>
                 <dict>
                         <key>data</key>
                         <string></string>
                         <key>spawnTime</key>
-                        <integer>8000</integer>
+                        <integer>5500</integer>
                 </dict>
+		<dict>
+			<key>data</key>
+			<string></string>
+			<key>spawnTime</key>
+                        <integer>6000</integer>
+		</dict>
                 <dict>
                         <key>data</key>
                         <string></string>
@@ -108,6 +174,72 @@
                         <string></string>
                         <key>spawnTime</key>
                         <integer>10000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>11000</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>12500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>13500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>14500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>22500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>24500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>25500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>26500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>27500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>29500</integer>
+                </dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>30000</integer>
                 </dict>
 	</array>
 </array>

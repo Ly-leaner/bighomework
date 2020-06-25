@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include"mypushbutton.h"
 
 #include<QPainter>
 #include<QMessageBox>
@@ -15,8 +16,15 @@
 #include<QMediaplayer>
 #include<QMediaPlaylist>
 #include<QSoundEffect>
+#include<QPropertyAnimation>
+#include<QDebug>
+#include<QMessageBox>
+
 
 static const int TowerCost = 300;
+
+int MainWindow::main_state = 0;
+//int MainWindow::main_state_restart = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,12 +32,50 @@ MainWindow::MainWindow(QWidget *parent) :
     m_waves(0),
     m_gameWin(false),
     m_gameEnded(false),
-    m_playerHp(5),
-    m_playrGold(1000),
-    startSound(NULL),
-    musiclist(NULL)
+    m_playerHp(3),
+    m_playrGold(1000)
+    //startSound(NULL),
+    //musiclist(NULL)
 {
     ui->setupUi(this);
+
+    //添加返回按钮
+    MyPushButton * back = new MyPushButton(":new/image/backbutton.png");
+    back->setParent(this);
+    back->move(this->width() - back->width()*1.2, 70);
+    //点击返回
+    connect(back, &MyPushButton::clicked, [=](){
+         //告知开始界面要返回 开始界面监听mainWindow的返回按钮
+
+        back->zoom1();
+        back->zoom2();
+
+        //延时 0.6s 返回到初始界面
+        QTimer::singleShot(600,this,[=](){
+            emit this->chooseScenceBack();
+        });
+
+    });
+
+    //*****************************************************************
+    //胜利和失败图片显示，先画到窗口外，胜利或失败时移到中央
+    WinLabel = new QLabel;
+    QPixmap tmpPix;
+    tmpPix.load(":new/image/win.png");
+    WinLabel->setGeometry(0,0,tmpPix.width(),tmpPix.height());
+    WinLabel->setPixmap(tmpPix);
+    WinLabel->setParent(this);
+    WinLabel->move((this->width() - tmpPix.width())*0.5, -tmpPix.height());
+
+    FailLabel = new QLabel;
+    QPixmap temp;
+    temp.load(":new/image/fail.png");
+    FailLabel->setGeometry(0,0,temp.width(),temp.height());
+    FailLabel->setPixmap(temp);
+    FailLabel->setParent(this);
+    FailLabel->move((this->width() - temp.width())*0.5, -temp.height());
+//*******************************************************************************
+
 
     loadTowerPositions();   //加载塔的位置信息，用于初始化游戏界面
     addWayPoints();
@@ -38,14 +84,66 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //每30ms更新一次窗口，用于移动敌人
-    QTimer *timer = new QTimer(this);
+    /*QTimer **/timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMap()));
     timer->start(30);
 
+    //添加暂停按钮******************************************************************************************
+    MyPushButton * pause = new MyPushButton(":new/image/pause.png", ":new/image/continue.png");
+    pause->setParent(this);
+    pause->move(this->width() - pause->width()*2, 30);
+
+    //点击暂停**************************功能待实现-2020-06-25*************************************************
+    connect(pause, &MyPushButton::clicked, [=](){
+       pause->zoom1();
+       pause->zoom2();
+       //延时 0.5s 暂停/继续游戏界面
+       QTimer::singleShot(500,this,[=](){
+           if(timer->isActive()){
+               timer->stop();
+               main_state = 1;
+           }
+           else{
+               timer->start();
+               main_state = 0;
+           }
+       });
+
+    });//*************************实现-2020-6-25**************************************************************
+
+    //添加重新开始按钮***************实现-2020-6-25**************************************************************
+    MyPushButton * restart = new MyPushButton(":new/image/restartbutton.png");
+    restart->setParent(this);
+    restart->move(this->width() - restart->width()*1.2, 150);
+    connect(restart, &MyPushButton::clicked, [=](){
+        //结束游戏
+        restart->zoom1();
+        restart->zoom2();
+        timer->stop();
+        main_state = 1;
+        //m_gameEnded = true;
+        //延时 0.6s 重新开始
+        QTimer::singleShot(600,this,[=](){
+            if (m_gameEnded || m_gameWin){
+                gameRestart();
+                timer->start();
+                main_state = 0;
+                gameStart();
+            }
+            else{
+                QMessageBox * dig = new QMessageBox(this);
+                dig->setWindowTitle("Prompt Information");
+                dig->setInformativeText("You cannot restart the game until the game is over.");
+                dig->exec();
+                timer->start();
+                main_state = 0;
+            }
+        });
+    });
 
 
     //设置500ms后游戏开始
-    QTimer::singleShot(500, this, SLOT(gameStart()));
+    QTimer::singleShot(100, this, SLOT(gameStart()));
 }
 
 MainWindow::~MainWindow()
@@ -55,12 +153,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *)
 {
-    if (m_gameEnded || m_gameWin)
+    if (m_gameEnded || m_gameWin)//*********此处应将return改为游戏暂停或结束（未实现），仍保留结束时的场景*************************
     {
-        QString text = m_gameEnded ? "YOU fail!!!" : "YOU WIN!!!";
-        QPainter painter(this);
-        painter.setPen(QPen(Qt::red));
-        painter.drawText(rect(), Qt::AlignCenter, text);
+
+//        QString text = m_gameEnded ? "YOU fail!!!" : "YOU WIN!!!";
+//        QPainter painter(this);
+//        painter.setPen(QPen(Qt::red));
+//        painter.drawText(rect(), Qt::AlignCenter, text);
         return;
     }
 
@@ -242,8 +341,23 @@ void MainWindow::removedEnemy(Enemy *enemy)
         if (!loadWave())
         {
             m_gameWin = true;
-            // 游戏胜利转到游戏胜利场景
-        }
+            //restart->move(this->width() - restart->width()*1.2, 150);//************2020-06-25-14:00*****************
+            // 游戏胜利转到游戏胜利场景****************************************************************************
+            //将胜利的图片移动下来
+            QPropertyAnimation * animation = new QPropertyAnimation(WinLabel, "geometry");
+            //设置时间间隔
+            animation->setDuration(1000);
+            //设置开始位置
+            animation->setStartValue(QRect(WinLabel->x(), WinLabel->y(), WinLabel->width(), WinLabel->height()));
+
+            //设置结束位置
+            animation->setEndValue(QRect(WinLabel->x(), WinLabel->y()+300, WinLabel->width(), WinLabel->height()));
+
+            //设置缓和曲线
+            animation->setEasingCurve(QEasingCurve::OutBounce);
+            //执行动画
+            animation->start();
+        }//****************************************************************************************************
     }
 }
 
@@ -361,32 +475,97 @@ void MainWindow::doGameOver()
 {
     if (!m_gameEnded)
     {
-        m_gameEnded = true;
+        m_gameEnded = true;//**************************************************************************
 
-        if(startSound)
-        startSound->stop();
+        //计时器结束
+        timer->stop();
+        //restart->move(this->width() - restart->width()*1.2, 150);//************2020-06-25-14:00*****************
+
+        QPropertyAnimation * animation = new QPropertyAnimation(FailLabel, "geometry");
+        //设置时间间隔
+        animation->setDuration(1000);
+        //设置开始位置
+        animation->setStartValue(QRect(FailLabel->x(), FailLabel->y(), FailLabel->width(), FailLabel->height()));
+
+        //设置结束位置
+        animation->setEndValue(QRect(FailLabel->x(), FailLabel->y()+350, FailLabel->width(), FailLabel->height()));
+
+        //设置缓和曲线
+        animation->setEasingCurve(QEasingCurve::OutBounce);
+        //执行动画
+        animation->start();
+
+//        if(startSound)
+//        startSound->stop();
         // 此处应该切换场景到结束场景
-        // 暂时以打印替代,见paintEvent处理
+        // 暂时以打印替代,见paintEvent处理***************已实现于上方-2020-06-25**********************************************************
     }
 }
 
 void MainWindow::gameStart()
 {
-    QMediaPlaylist *musiclist = new QMediaPlaylist;//创建播放列表
-    QMediaPlayer *startSound = new QMediaPlayer;//游戏背景音乐
-    startSound->setMedia(QUrl("qrc:new/music/background.mp3"));
-    startSound->setVolume(100);
-    musiclist->addMedia(QUrl("qrc:new/music/background.mp3"));//添加音乐
-    musiclist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);//循环播放
+//    //************************************修正-2020-06-25-9:50a.m.，将之移动到startwindown**********************************************
+//    QMediaPlaylist *musiclist = new QMediaPlaylist;//创建播放列表
+//    /*QMediaPlayer **/startSound = new QMediaPlayer;//游戏背景音乐
+//    startSound->setMedia(QUrl("qrc:new/music/background.mp3"));
+//    startSound->setVolume(20);
+//    musiclist->addMedia(QUrl("qrc:new/music/background.mp3"));//添加音乐
+//    musiclist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);//循环播放
 
-    startSound->play();
+//    startSound->play();
     loadWave();
 }
 
 void MainWindow::awardGold(int gold)
 {
-    m_playrGold += gold;
+    if(m_playrGold<=1200)
+        m_playrGold += gold;
     update();
+}
+
+int MainWindow::Wave_num()
+{
+    return m_waves;
+}
+
+void MainWindow::gameRestart()
+{
+    //main_state_restart = 1;
+
+    if(m_gameWin){
+        WinLabel->move((this->width() - 300)*0.5, -300);
+    }
+    else{
+        FailLabel->move((this->width() - 300)*0.5, -300);
+    }
+
+    m_waves = 0;
+    m_gameWin = false;
+    m_gameEnded = false;
+    m_playerHp = 3;
+    m_playrGold = 1000;
+
+    foreach (const Enemy *enemy, m_enemyList)
+        enemy->~Enemy();
+
+    m_towerPositionsList.clear();
+    m_towersList.clear();
+//    if(m_towersList.empty()){
+//        qDebug()<<"empty";
+//    }
+    m_wayPointsList.clear();
+    m_enemyList.clear();
+    m_wavesInfo.clear();
+    m_bulletList.clear();
+//        if(m_bulletList.empty()){
+//            qDebug()<<"empty";
+//        }
+
+
+    loadTowerPositions();   //加载塔的位置信息，用于初始化游戏界面
+    addWayPoints();
+    preLoadWavesInfo();
+
 }
 
 

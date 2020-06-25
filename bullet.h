@@ -23,6 +23,7 @@ class Bullet : QObject
 public:
     Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target,
            MainWindow *game, const QPixmap &sprite = QPixmap(":/new/image/bullet.png"));
+    //~Bullet();
 
     void draw(QPainter *painter) const;
     void move();

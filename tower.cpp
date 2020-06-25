@@ -106,18 +106,21 @@ void Tower::chooseEnemyForAttack(Enemy *enemy)
     m_chooseEnemy->getAttacked(this);
 }
 
-void Tower::shootWeapon()
+void Tower::shootWeapon()//******************************************************************************
 {
-    Bullet *bullet = new Bullet(m_pos, m_chooseEnemy->pos(), m_damage, m_chooseEnemy, m_game);
-    bullet->move();
+    if(MainWindow::main_state == 0){
+        Bullet *bullet = new Bullet(m_pos, m_chooseEnemy->pos(), m_damage, m_chooseEnemy, m_game);
+        bullet->move();
 
-    QSoundEffect *m_place_tower = new QSoundEffect;
-    m_place_tower->setSource(QUrl("qrc:new/music/shoot.wav"));
-    m_place_tower->setLoopCount(1);
-    m_place_tower->setVolume(0.5);
-    m_place_tower->play();
+        QSoundEffect *m_place_tower = new QSoundEffect;
+        m_place_tower->setSource(QUrl("qrc:new/music/shoot.wav"));
+        m_place_tower->setLoopCount(1);
+        m_place_tower->setVolume(0.5);
+        m_place_tower->play();
 
-    m_game->addBullet(bullet);
+        m_game->addBullet(bullet);
+    }
+    else return;
 }
 
 void Tower::targetKilled()
