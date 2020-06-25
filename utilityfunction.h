@@ -15,4 +15,5 @@ inline bool collisionWithCircle(QPoint point1, int radius1, QPoint point2, int r
 
     return false;
 }
+
 #endif // UTILITYFUNCTION_H

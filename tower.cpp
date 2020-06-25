@@ -13,9 +13,9 @@
 
 //塔的攻击原则：选择一个敌人持续攻击直到敌人死亡或移除攻击范围
 
-const QSize Tower::ms_fixedSize(42, 42);
+//const QSize Tower::ms_fixedSize(42, 42);
 
-Tower::Tower(QPoint pos, MainWindow *game, const QPixmap &sprite/* = QPixmap(":/image/tower.png"*/)
+Tower::Tower(QPoint pos, MainWindow *game, const QSize &size/* = QSize(44,44)*/, const QPixmap &sprite/* = QPixmap(":/image/tower.png"*/)
     : m_attacking(false),
     m_attackRange(75),
     m_damage(10),
@@ -24,7 +24,8 @@ Tower::Tower(QPoint pos, MainWindow *game, const QPixmap &sprite/* = QPixmap(":/
     m_pos(pos),
     m_sprite(sprite),
     m_chooseEnemy(NULL),
-    m_game(game)
+    m_game(game),
+    ms_fixedSize(size)
 {
     m_fireRateTimer = new QTimer(this);
     connect(m_fireRateTimer, SIGNAL(timeout()), this, SLOT(shootWeapon()));
@@ -34,6 +35,11 @@ Tower::~Tower()
 {
     delete m_fireRateTimer;
     m_fireRateTimer = NULL;
+}
+
+void Tower::timeStop()
+{
+    m_fireRateTimer->stop();
 }
 
 void Tower::draw(QPainter *painter) const
@@ -99,6 +105,14 @@ void Tower::checkEnemyInRange()
     }
 }
 
+bool Tower::positionInRange(QPoint &pos)
+{
+    if(collisionWithCircle(m_pos, 10, pos, 1))
+        return true;
+    else
+        return false;
+}
+
 void Tower::chooseEnemyForAttack(Enemy *enemy)
 {
     m_chooseEnemy = enemy;
@@ -140,4 +154,9 @@ void Tower::lostSightOfEnemy()
 
     m_fireRateTimer->stop();
     m_rotationSprite = 0.0;
+}
+
+Enemy * Tower::getEnemy()
+{
+    return m_chooseEnemy;
 }

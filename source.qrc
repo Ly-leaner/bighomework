@@ -23,5 +23,6 @@
         <file>image/fail.png</file>
         <file>image/win.png</file>
         <file>image/restartbutton.png</file>
+        <file>image/tower2.png</file>
     </qresource>
 </RCC>

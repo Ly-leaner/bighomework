@@ -42,6 +42,7 @@ public:
     QLabel * WinLabel;//胜利图标
     QLabel * FailLabel;//失败图标
     MyPushButton * restart;//重新开始按钮
+    QTimer * timer;
 
     QList<Enemy *> enemyList() const;
     //QMediaPlaylist *musiclist/* = new QMediaPlaylist*/;//创建播放列表
@@ -54,18 +55,25 @@ signals:
 protected:
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
+    //-----------------------------重写双击事件(2020-06-25-23:30)----------------------------
+    void mouseDoubleClickEvent(QMouseEvent *event);
 
 private slots:
     void updateMap();
+public:
     void gameStart();
+    bool checktimerActive();//与游戏开始界面形成交互
+    void timerStop();//与游戏开始界面形成交互
+    void timerStart();//与游戏开始界面形成交互
+    bool WinOrFail();//与游戏开始界面形成交互
 
 private:
     Ui::MainWindow *ui;
 //    QMediaPlayer *startSound/* = new QMediaPlayer*/;//游戏背景音乐
-    QTimer * timer;
 
     void loadTowerPositions();  //用于从XML文件中读取塔安放的位置信息m_pos
     bool canBuyTower() const;
+    bool canBuyTower2() const;//--------------------new-------------------------------
     void addWayPoints();//绘制路线航点
     void preLoadWavesInfo();
     bool loadWave();    //加载下一波敌人的数目和出现时间

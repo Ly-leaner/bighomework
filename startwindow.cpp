@@ -1,6 +1,7 @@
 #include "startwindow.h"
 #include<QPainter>
 #include"mypushbutton.h"
+#include"mainwindow.h"
 #include<QTimer>
 #include<QDialog>
 #include<QMessageBox>
@@ -10,16 +11,18 @@
 StartWindow::StartWindow(QWidget *parent) : QMainWindow(parent)
 {
     this->setFixedSize(750, 480);
-
+    isBacking = false;
+    ispausing = false;
     setWindowTitle("StartWindow");
 
     //************************************修正-2020-06-25-9:50a.m.***********************************
-    QMediaPlaylist *musiclist = new QMediaPlaylist;//创建播放列表
+    /*QMediaPlaylist **/musiclist = new QMediaPlaylist;//创建播放列表
     /*QMediaPlayer **/startSound = new QMediaPlayer;//游戏背景音乐
-    startSound->setMedia(QUrl("qrc:new/music/background.mp3"));
-    startSound->setVolume(20);
     musiclist->addMedia(QUrl("qrc:new/music/background.mp3"));//添加音乐
     musiclist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);//循环播放
+    startSound->setPlaylist(musiclist);
+    //startSound->setMedia(QUrl("qrc:new/music/background.mp3"));
+    startSound->setVolume(20);
 
     startSound->play();
 
@@ -43,6 +46,14 @@ StartWindow::StartWindow(QWidget *parent) : QMainWindow(parent)
 
     //监听游戏界面的返回按钮的信号
     connect(w, &MainWindow::chooseScenceBack, this, [=](){
+        isBacking = true;
+        if(w->checktimerActive()){
+            w->timerStop();
+        }
+        else{
+            if(!w->WinOrFail())
+                ispausing = true;
+        }
         w->hide();//隐藏游戏主界面
         this->show();//重新显示开始界面
     });
@@ -58,6 +69,18 @@ StartWindow::StartWindow(QWidget *parent) : QMainWindow(parent)
             this->hide();
             //显示游戏主界面
             w->show();
+            if(isBacking==false){
+                w->gameStart();
+            }
+            else{
+                if(!ispausing){
+                w->timerStart();
+                isBacking = false;
+                }
+                else{
+                    ispausing = false;
+                }
+            }
         });
     });
 
@@ -89,10 +112,16 @@ StartWindow::StartWindow(QWidget *parent) : QMainWindow(parent)
             dig->setWindowTitle("Rule Description");
             dig->setInformativeText("Dear player,\n"
                                     "    Here is a simple description of the game rules:\n"
-                                    "    Click on the square tower base marked on the map to install \n"
-                                    "the defense tower and prevent the enemy from entering the house.\n"
-                                    "You will have three chances to make a mistake, which means that \n"
+                                    "    Click on the square tower base marked on the map to install"
+                                    "the defense tower and prevent the enemy from entering the house."
+                                    "You will have three chances to make a mistake, which means that"
                                     "the game will fail when the fourth enemy enters the house.\n"
+                                    "\n"
+                                    "Mouse operation:\n"
+                                    "Left-click to install the first defense tower.\n"
+                                    "Right-click to install the second defense tower.\n"
+                                    "Double left-click to remove the defense tower.\n"
+                                    "\n"
                                     "Good luck!");
             dig->exec();
 

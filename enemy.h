@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QSize>
 #include <QPixmap>
+#include"utilityfunction.h"
 
 class WayPoint;
 class QPainter;
@@ -24,6 +25,7 @@ public:
     void getRemoved();
     void getAttacked(Tower *attacker);
     void gotLostSight(Tower *attacker);
+    void removeTower(QPoint & pos);
     QPoint pos() const;
     //*****************************************
     //bool exist();//状态，避免重复析构，1表示未析构，0表示被析构

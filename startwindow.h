@@ -17,6 +17,9 @@ public:
 
     MainWindow * w = NULL;
     QMediaPlayer *startSound/* = new QMediaPlayer*/;//游戏背景音乐
+    QMediaPlaylist * musiclist;
+    bool isBacking;//判断是从主界面第一次进入游戏，还是从游戏界面返回主界面后再次进入
+    bool ispausing;//判断从暂停状态进入主界面
 
 
 signals:

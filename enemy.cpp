@@ -66,7 +66,7 @@ void Enemy::move()
 
     // 修改这个可以添加移动状态,加快,减慢,m_walkingSpeed是基准值
     // 向量标准化
-    double movementSpeed = m_walkingSpeed + (double)m_game->Wave_num()/2.0;
+    double movementSpeed = m_walkingSpeed + (double)m_game->Wave_num()/1.5;
     QVector2D/*二维向量*/ normalized(targetPoint - m_pos);
     normalized.normalize();//二维向量标准化
     //当前位置位置+=标准化二维向量*移动速度
@@ -158,4 +158,17 @@ void Enemy::getDamage(int damage)//
     }
 }
 
+void Enemy::removeTower(QPoint & pos)
+{
+    for(int i=0; ;i++){
+        if(m_attackedTowersList.at(i)->positionInRange(pos)){
+            m_attackedTowersList.at(i)->timeStop();
+            m_attackedTowersList.removeAt(i);
+            break;
+        }
+        else
+            continue;
+    }
+
+}
 
