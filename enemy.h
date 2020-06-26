@@ -17,9 +17,9 @@ class Enemy : public QObject
     Q_OBJECT
 public:
     Enemy(WayPoint *startWayPoint, MainWindow *game, const QPixmap &sprite = QPixmap(":/new/image/enemy.png"));
-    ~Enemy();
+    virtual ~Enemy();
 
-    void draw(QPainter *painter) const;
+    virtual void draw(QPainter *painter) const;
     void move();
     void getDamage(int damage);
     void getRemoved();
@@ -33,7 +33,7 @@ public:
 public slots:
     void doActivate();
 
-private:
+public:
     //******************************************
     //int state_distructed;//状态，用于析构
     bool m_active;   //判断敌人是否可以移动

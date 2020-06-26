@@ -33,6 +33,12 @@
 			<key>spawnTime</key>
 			<integer>3000</integer>
 		</dict>
+                <dict>
+                        <key>data</key>
+                        <string></string>
+                        <key>spawnTime</key>
+                        <integer>4000</integer>
+                </dict>
 		<dict>
 			<key>data</key>
 			<string></string>
@@ -221,25 +227,25 @@
                         <key>data</key>
                         <string></string>
                         <key>spawnTime</key>
-                        <integer>26500</integer>
+                        <integer>26000</integer>
                 </dict>
                 <dict>
                         <key>data</key>
                         <string></string>
                         <key>spawnTime</key>
-                        <integer>27500</integer>
+                        <integer>27000</integer>
                 </dict>
                 <dict>
                         <key>data</key>
                         <string></string>
                         <key>spawnTime</key>
-                        <integer>29500</integer>
+                        <integer>27300</integer>
                 </dict>
                 <dict>
                         <key>data</key>
                         <string></string>
                         <key>spawnTime</key>
-                        <integer>30000</integer>
+                        <integer>27600</integer>
                 </dict>
 	</array>
 </array>

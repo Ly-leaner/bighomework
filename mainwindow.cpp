@@ -12,6 +12,7 @@
 #include"plistreader.h"
 #include"waypoint.h"
 #include"enemy.h"
+#include"enemy2.h"
 #include"bullet.h"
 #include"tower.h"
 #include"tower2.h"//-----------------------------new--------------------------------
@@ -36,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_waves(0),
     m_gameWin(false),
     m_gameEnded(false),
-    m_playerHp(3),
+    m_playerHp(5),
     m_playrGold(1000)
     //startSound(NULL),
     //musiclist(NULL)
@@ -146,6 +147,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     timer->start();
                     main_state = 0;
                 }
+                else{}
             }
         });
     });
@@ -190,7 +192,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         wayPoint->draw(&cachePainter);
 
     //绘制敌人
-    foreach (const Enemy *enemy, m_enemyList)
+    foreach (/*const */Enemy *enemy, m_enemyList)
         enemy->draw(&cachePainter);
 
     //子弹
@@ -314,24 +316,29 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *event)
     auto it = m_towerPositionsList.begin();
     while (it != m_towerPositionsList.end())
     {
-        if (it->containPoint(pressPos) && it->hasTower())
-        {
-            it->setHasTower(false);
+        if(event->button() == Qt::LeftButton){
+            if (it->containPoint(pressPos) && it->hasTower())
+            {
+                it->setHasTower(false);
 
-            for(int i=0; ;i++){
-                if(m_towersList.at(i)->positionInRange(pressPos)){
-                    m_towersList.at(i)->timeStop();
-                    if(m_towersList.at(i)->getEnemy())
-                        m_towersList.at(i)->getEnemy()->removeTower(pressPos);
-                    m_towersList.removeAt(i);
-                    break;
+                for(int i=0; ;i++){
+                    if(m_towersList.at(i)->positionInRange(pressPos)){
+                        m_towersList.at(i)->timeStop();
+                        if(m_towersList.at(i)->getEnemy())
+                            m_towersList.at(i)->getEnemy()->removeTower(pressPos);
+                        m_towersList.removeAt(i);
+                        break;
+                    }
+                    else
+                        continue;
                 }
-                else
-                    continue;
+
+                update();
+
+                break;
             }
-
-            update();
-
+        }
+        else{
             break;
         }
         ++it;
@@ -415,6 +422,7 @@ void MainWindow::removedEnemy(Enemy *enemy)
             m_gameWin = true;
             if(timer->isActive()){
                 timer->stop();
+                main_state = 1;
             }
             //restart->move(this->width() - restart->width()*1.2, 150);//************2020-06-25-14:00*****************
             // 游戏胜利转到游戏胜利场景****************************************************************************
@@ -479,9 +487,26 @@ bool MainWindow::loadWave()
         QMap<QString, QVariant> dict = curWavesInfo[i].toMap();
         int spawnTime = dict.value("spawnTime").toInt();
 
-        Enemy *enemy = new Enemy(startWayPoint, this);
-        m_enemyList.push_back(enemy);
-        QTimer::singleShot(spawnTime, enemy, SLOT(doActivate()));
+        if((m_waves<2)&&(i+1)%10 != 0){
+            Enemy *enemy = new Enemy(startWayPoint, this);
+            m_enemyList.push_back(enemy);
+            QTimer::singleShot(spawnTime, enemy, SLOT(doActivate()));
+        }
+        else if((m_waves<2)&&(i+1)%10 == 0){//-------------------------新增第二类敌人(2020-06-26-10:50)---------------------
+            Enemy2 *enemy = new Enemy2(startWayPoint, this);
+            m_enemyList.push_back(enemy);
+            QTimer::singleShot(spawnTime, enemy, SLOT(doActivate()));
+        }
+        else if((m_waves==2)&&(i==5||i==10||i==11||i==15||i==16||i==17||i==18||i==19||i==20)){
+            Enemy2 *enemy = new Enemy2(startWayPoint, this);
+            m_enemyList.push_back(enemy);
+            QTimer::singleShot(spawnTime, enemy, SLOT(doActivate()));
+        }
+        else{
+            Enemy *enemy = new Enemy(startWayPoint, this);
+            m_enemyList.push_back(enemy);
+            QTimer::singleShot(spawnTime, enemy, SLOT(doActivate()));
+        }
         /*
          * [static] void QTimer::singleShot(int msec, const QObject *receiver, const char *member)
          * This static function calls a slot after a given time interval.
@@ -555,6 +580,7 @@ void MainWindow::doGameOver()
         //计时器结束
         if(timer->isActive()){
             timer->stop();
+            main_state = 1;
         }
         //restart->move(this->width() - restart->width()*1.2, 150);//************2020-06-25-14:00*****************
 
@@ -588,8 +614,8 @@ void MainWindow::gameStart()
 
 void MainWindow::awardGold(int gold)
 {
-    if(m_playrGold<=1200)
-        m_playrGold += gold;
+    //if(m_playrGold<=1200)
+    m_playrGold += gold;
     update();
 }
 

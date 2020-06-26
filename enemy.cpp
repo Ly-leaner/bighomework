@@ -1,4 +1,5 @@
 #include "enemy.h"
+
 #include "waypoint.h"
 #include "tower.h"
 #include "utilityfunction.h"//只含有一个碰撞检测函数
@@ -30,6 +31,9 @@ Enemy::Enemy(WayPoint *startWayPoint, MainWindow *game, const QPixmap &sprite/* 
 
 Enemy::~Enemy()
 {
+    foreach (/*const */Tower * tower, m_attackedTowersList) {
+        tower->timeStop();
+    }
     m_attackedTowersList.clear();
     m_destinationWayPoint = NULL;
     m_game = NULL;
