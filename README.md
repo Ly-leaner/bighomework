@@ -1,10 +1,10 @@
 # 大作业第三次修改项目说明
 ## 一、新增和完善的类和功能
 1、新增了游戏开始界面类（startWindow），继承QPushButton得到的按钮类（myPushButton），继承自敌人1的敌人2类（enemy2）、继承自炮塔1的炮塔2类（tower2），修改后的UML类图如下：
-![](UML-3.png)
+![image](https://raw.githubusercontent.com/Ly-leaner/bighomework/master/UML-3.png)
 
 2、更改后的函数调用基本流程图如下：
-![](process-3.png)
+![image](https://raw.githubusercontent.com/Ly-leaner/bighomework/master/process-3.png)
 
 3、增加了游戏背景音乐，安置塔基、防御塔以及敌人被消灭，基地受到攻击的音效。
 
